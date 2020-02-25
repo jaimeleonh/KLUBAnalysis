@@ -34,8 +34,8 @@ for nj in range(0, args.njobs):
     logName    = logproto + str(nj) + '.txt'
     scriptFile = open (outDir + '/' + scriptName, 'w')
     scriptFile.write ('#!/bin/bash\n')
-    scriptFile.write ('export X509_USER_PROXY=~/.t3/proxy.cert\n')
-    scriptFile.write ('source /cvmfs/cms.cern.ch/cmsset_default.sh\n')
+#    scriptFile.write ('export X509_USER_PROXY=~/.t3/proxy.cert\n')
+#    scriptFile.write ('source /cvmfs/cms.cern.ch/cmsset_default.sh\n')
     scriptFile.write ('cd %s\n' % here)
     scriptFile.write ('export SCRAM_ARCH=slc6_amd64_gcc491\n')
     scriptFile.write ('eval `scram r -sh`\n')
@@ -45,7 +45,21 @@ for nj in range(0, args.njobs):
     scriptFile.close()
     
     os.system ('chmod u+rwx ' + outDir + '/' + scriptName)
-    launchcommand = ('/opt/exp_soft/cms/t3/t3submit -short \'' + outDir + '/' + scriptName +"\'")
-    print launchcommand
-    os.system (launchcommand)
+    #launchcommand = ('/opt/exp_soft/cms/t3/t3submit -short \'' + outDir + '/' + scriptName +"\'")
+    #print launchcommand
+   
+    condorName = "submit_condor_" + str(nj) + ".sub"
+    f = open (outDir + '/' + condorName, 'w')
+    f.write( "executable         = %s/%s\n"%(outDir,scriptName))
+    f.write( "output             = %s/$(ClusterId).$(ProcId).out\n"%outDir)
+    f.write( "error              = %s/$(ClusterId).$(ProcId).error\n"%outDir)
+    f.write( "log                = %s/$(ClusterId).log\n"%outDir)
+    #f.write( "use_x509userproxy  = true\n")
+    #f.write('+JobFlavour = "tomorrow"\n' )
+    #f.write('+JobFlavour = "workday"\n' )
+    f.write("queue \n")
+    f.close()
+
+
+    os.system ( 'condor_submit %s/submit_condor_%s.sub'%(outDir,str(nj)))
     # command = '/opt/exp_soft/cms/t3/t3submit -short ' + outDir + '/' + proto + str (nj) + '.sh'
