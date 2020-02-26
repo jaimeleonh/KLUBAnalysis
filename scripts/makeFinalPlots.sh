@@ -1,9 +1,9 @@
-if [ ! -d "/eos/home-c/camendol/www" ]; then
-    kinit camendol@CERN.CH
-    /opt/exp_soft/cms/t3/eos-login -username camendol  
-fi
+#if [ ! -d "/eos/home-c/camendol/www" ]; then
+#    kinit camendol@CERN.CH
+#    /opt/exp_soft/cms/t3/eos-login -username camendol  
+#fi
 
-tag=22Jan2020
+tag=19Feb2020_Legacy2018
 log=(--log)
 
 
@@ -37,7 +37,8 @@ reg=SR  # A:SR , B:SStight , C:OSinviso, D:SSinviso, B': SSrlx
 #reg=SRVTight
 
 
-baseline=baseline55
+#baseline=baseline55
+baseline=baseline #### JAIME
 
 
 
@@ -158,15 +159,20 @@ echo $obj1
 ##python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjj_dEtaSign --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "#eta_{VBFj11}#times#eta_{VBFj2}"  $others --quit
 #python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjj_deltaEta --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "|#Delta#eta_{jj}|"  $others --quit
 
-python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjj_mass  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "m_{jj} [GeV]"  $others --quit
 
-python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet1_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet1} [GeV]"  $others --quit
-python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet2_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet2} [GeV]"  $others --quit
+############################# WHAT JAIME FOUND #################################
+#python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjj_mass  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "m_{jj} [GeV]"  $others --quit
 
-python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjj_mass  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "m_{jj} [GeV]"  $others --quit
+#python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet1_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet1} [GeV]"  $others --quit
+#python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet2_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet2} [GeV]"  $others --quit
 
-python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjet1_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet1} [GeV]"  $others --quit
-python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjet2_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet2} [GeV]"  $others --quit
+#python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjj_mass  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "m_{jj} [GeV]"  $others --quit
+
+#python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjet1_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet1} [GeV]"  $others --quit
+#python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjet2_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet2} [GeV]"  $others --quit
+
+############################ WHAT JAIME IS USING ##############################
+python scripts/$plotter --dir analysis_$channel\_$tag --var tauH_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TtauH} [GeV]"  $others --quit
 
 #python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet1_eta --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "VBF jet #eta"  $others --quit 
 #python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet2_eta --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "VBF jet #eta"  $others --quit --ymax 14000
@@ -300,27 +306,27 @@ python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjet2_pt  --reg $r
 	
 
 
+#
+#cd plotsHHLegacy2018_$channel
 
-cd plotsHHLegacy2018_$channel
-
-mkdir /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel
-mkdir /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag
-if [ -d  /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg ]
-then
-    echo "removing"
-    rm -rf  /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
-fi
-if [ -d  /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg ]
-then
-    echo "pippa"
-fi
-mkdir /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
-cp $tag/$baseline\_$reg/* /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel\_Jan2019/$tag/$baseline\_$reg
-cd ..
-cp /eos/home-c/camendol/www/index.php /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
+#mkdir /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel
+#mkdir /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag
+#if [ -d  /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg ]
+#then
+#    echo "removing"
+#    rm -rf  /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
+#fi
+#if [ -d  /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg ]
+#then
+#    echo "pippa"
+#fi
+#mkdir /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
+#cp $tag/$baseline\_$reg/* /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel\_Jan2019/$tag/$baseline\_$reg
+#cd ..
+#cp /eos/home-c/camendol/www/index.php /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
 
 
-cd plotsHHLegacy2018_$channel
+#cd plotsHHLegacy2018_$channel
 
 
 
@@ -331,4 +337,4 @@ cd plotsHHLegacy2018_$channel
 #ssh camendol@lxplus.cern.ch "cp /eos/home-c/camendol/www/index.php /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel\_Jan2019/$tag ; /eos/home-c/camendol/www/index.php /eos/home-c/camendol/www/HHLegacy2018/plotsHHLegacy2018$channel\_Jan2019/$tag/$baseline\_$reg"
 #cd ..
 
-echo [Alt + CMD + 2click]: http://camendol.web.cern.ch/camendol/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
+#echo [Alt + CMD + 2click]: http://camendol.web.cern.ch/camendol/HHLegacy2018/plotsHHLegacy2018$channel/$tag/$baseline\_$reg
