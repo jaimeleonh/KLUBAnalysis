@@ -3,7 +3,7 @@
 #    /opt/exp_soft/cms/t3/eos-login -username camendol  
 #fi
 
-tag=19Feb2020_Legacy2018
+tag=19Fev2020
 log=(--log)
 
 
@@ -37,8 +37,8 @@ reg=SR  # A:SR , B:SStight , C:OSinviso, D:SSinviso, B': SSrlx
 #reg=SRVTight
 
 
-#baseline=baseline55
-baseline=baseline #### JAIME
+baseline=baseline55
+#baseline=baseline #### JAIME
 
 
 
@@ -172,7 +172,7 @@ echo $obj1
 #python scripts/$plotter --dir analysis_$channel\_$tag --var VBFjet2_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TVBFjet2} [GeV]"  $others --quit
 
 ############################ WHAT JAIME IS USING ##############################
-python scripts/$plotter --dir analysis_$channel\_$tag --var tauH_pt  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "p_{TtauH} [GeV]"  $others --quit
+python scripts/$plotter --dir analysis_$channel\_$tag --var tauH_mass  --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "m_{tauH} [GeV]"  $others --quit
 
 #python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet1_eta --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "VBF jet #eta"  $others --quit 
 #python scripts/$plotter --dir /data_CMS/cms/amendola/analysisLegacy2018/analysis_$channel\_$tag --var VBFjet2_eta --reg $reg --sel $baseline --channel $channel --lymin 0.7 --lumi $lumi    --tag $tag  --label "VBF jet #eta"  $others --quit --ymax 14000

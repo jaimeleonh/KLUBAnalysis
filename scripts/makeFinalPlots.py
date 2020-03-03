@@ -435,7 +435,7 @@ if __name__ == "__main__" :
     cfg        = cfgr.ConfigReader (cfgName)
     bkgList    = cfg.readListOption("general::backgrounds")
 
-    doQCD = True
+    doQCD = True ####JAIME
     if not "SR" in args.reg: doQCD = False
     if not "Tau" in args.channel: doQCD = False
     
@@ -955,7 +955,7 @@ if __name__ == "__main__" :
         tagch = ""
         if args.channel:
             tagch = "_" + args.channel
-        saveName = "./plotsHH2017_"+args.channel+"/"+args.tag+"/"+args.sel+"_"+args.reg+"/plot_" + args.var + "_" + args.sel +"_" + args.reg+ tagch
+        saveName = "./plotsHHLegacy2018_"+args.channel+"/"+args.tag+"/"+args.sel+"_"+args.reg+"/plot_" + args.var + "_" + args.sel +"_" + args.reg+ tagch
         if args.log:
             saveName = saveName+"_log"
         if args.flat:
