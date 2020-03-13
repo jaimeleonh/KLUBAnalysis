@@ -21,7 +21,7 @@ def parseOptions():
 listHistos = []
 systNamesOUT=["CMS_scale_t_13TeV","CMS_scale_j_13TeV"]
 systNames=["tau","jet"]
-yieldFolder="/home/llr/cms/amendola/HH2017/CMSSW_9_0_0/src/KLUBAnalysis/studies/GetScaleYieldSyst"
+yieldFolder="/afs/cern.ch/work/j/jleonhol/private/KLUB_combine_Chiara/CMSSW_10_2_16/src/KLUBAnalysis/studies/GetScaleYieldSyst"
 parseOptions()
 print "Running"
 inFile = TFile.Open(opt.filename)

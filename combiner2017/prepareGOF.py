@@ -41,4 +41,5 @@ if __name__ == "__main__":
     scriptFile.close()
     os.system('chmod u+rwx %s/runJob_%s.sh'%(jobsDir,opt.n))
     #os.system("/opt/exp_soft/cms/t3/t3submit -q cms \'%s/runJob_%s.sh\'"%(jobsDir,opt.n))
-    os.system("/home/llr/cms/amendola/t3submit_el7 -short  \'%s/runJob_%s.sh\'"%(jobsDir,opt.n))
+    os.system("source \'%s/runJob_%s.sh\'"%(jobsDir,opt.n))
+    #os.system("/home/llr/cms/amendola/t3submit_el7 -short  \'%s/runJob_%s.sh\'"%(jobsDir,opt.n))

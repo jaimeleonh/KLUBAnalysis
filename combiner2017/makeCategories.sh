@@ -9,9 +9,9 @@ export SELECTIONS="s2b0jresolvedMcut s1b1jresolvedMcut sboostedLLMcut VBFtight V
 #export SELECTIONS="s2b0jresolvedMcut s1b1jresolvedMcut sboostedLLMcut"
 export NAMESAMPLE="ggHH_bbtt"
 #"ggHH_bbtt"
-export RESONANT=$2
-#export LEPTONS=$1
-export LEPTONS="ETau MuTau TauTau"
+export RESONANT=
+export LEPTONS="TauTau"
+#export LEPTONS="ETau MuTau TauTau"
 
 #klvar=(-20 -15 -10 -8 -6 -4 -3 -2 -1 0.001 1 2 3 2.45 4 5 6 7 8 9 10 11 12 14 16 18 20 25 30)
 klvar=(1)
@@ -26,7 +26,8 @@ if [ "${RESONANT}" != "-r" ]
     #for il in {1..29}
     #do 
     #    export LAMBDAS="$LAMBDAS ${il}"
-    #	 export VARIABLES="${VARIABLES} BDToutSM_kl_${klvar[$((il-1))]}" 
+    export VARIABLES="${VARIABLES} BDToutSM_kl_1" #JAIME
+    #export VARIABLES="${VARIABLES} BDToutSM_kl_${klvar[$((il-1))]}"  
     #done
     export LAMBDAS="11"
 fi
@@ -41,29 +42,39 @@ for ibase in $SELECTIONS
 do
     for c in $LEPTONS
     do
-        export BASE="$ibase"
+      export BASE="$ibase"
         
-	if [ "${c}" == "MuTau" ]
-        then
-	    if [[ "${ibase}" == *"VBFtight"*  ]]
-	    then
-		continue
-	    fi
-        fi
-        if [ "${c}" == "ETau" ]
-        then
-	    if [[ "${ibase}" == *"VBFtight"*  ]]
-	    then
-		continue
-	    fi
-        fi
-	python chcardMaker.py -f analyzedOutPlotter_2019_10_11_vtight_${c}.root -o "_${OUTSTRING}" -c ${c} -y -s ${BASE} ${RESONANT} -u 1 -t 
+	    if [ "${c}" == "MuTau" ]
+      then
+	      if [[ "${ibase}" == *"VBFtight"*  ]]
+	      then
+		      continue
+	      fi
+      fi
+      if [ "${c}" == "ETau" ]
+      then
+	      if [[ "${ibase}" == *"VBFtight"*  ]]
+	      then
+		      continue
+	      fi
+      fi
+      echo "CALLING chcardMaker.py"
+	    python chcardMaker.py -f analyzedOutPlotter_2019_10_11_TauTau_lambdascanGGF.root -o "_${OUTSTRING}" -c ${c} -y -s ${BASE} ${RESONANT} -u 0 -t 
+	    #python chcardMaker.py -f analyzedOutPlotter_2019_10_11_TauTau_lambdascanGGF.root -o "_${OUTSTRING}" -c ${c} -y -s ${BASE} ${RESONANT} -u 1 -t #JAIME
+	    #python chcardMaker.py -f analyzedOutPlotter_2019_10_11_vtight_${c}.root -o "_${OUTSTRING}" -c ${c} -y -s ${BASE} ${RESONANT} -u 1 -t 
     done
 done
 echo " "
 echo "CREATED ALL CARDS"
+
+#return
+
+echo $arrVARIABLES
+
 for i in $LAMBDAS
 do 
+  for j in $arrVARIABLES #JAIME
+  do #JAIME
 #MAKE LIMIT FOR individual CHANNEL/categories [9 x mass points]
     for ibase in $SELECTIONS
     do	
@@ -74,19 +85,19 @@ do
             then
                 export chanNum="2"
                 echo "${c} ${chanNum}"
-		if [[ "${ibase}" == *"VBFtight"*  ]]
-		then
-		    continue
-		fi
+		            if [[ "${ibase}" == *"VBFtight"*  ]]
+		            then
+		              continue
+		            fi
             fi
             if [ "${c}" == "ETau" ]
             then
                 export chanNum="1"
                 echo "${c} ${chanNum}" 
-		if [[ "${ibase}" == *"VBFtight"*  ]]
-		then
-		    continue
-		fi
+		            if [[ "${ibase}" == *"VBFtight"*  ]]
+		            then
+		              continue
+		            fi
             fi
             if [ "${c}" == "TauTau" ]
             then
@@ -94,8 +105,10 @@ do
                 echo "${c} ${chanNum}" 
 
             fi
-	    echo ${CF}/cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}
-            cd ${CF}/cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}
+	          echo "Entering folder: ", ${CF}/cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${j}
+	          #echo ${CF}/cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}
+            cd ${CF}/cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${j}
+            #cd ${CF}/cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}
             pwd
             combineCards.py -S hh_*.txt >> comb.txt 
             text2workspace.py -m ${i} comb.txt -o comb.root ;
@@ -106,18 +119,24 @@ do
             cd ${CF}
         done
     done
+  done
 done
+
+#return
 
 #CATEGORY COMBINATION
 for i in $LAMBDAS
 do
-    cd ${CF}
-	mkdir -p cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${arrVARIABLES[$((i-1))]}
+  for j in $arrVARIABLES #JAIME
+  do #JAIME
+
+  cd ${CF}
+	mkdir -p cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${j}
 	pwd
     #MAKE COMBINATION FOR CATEGORY [3 x mass point]
     for ibase in $SELECTIONS
     do
-        mkdir -p cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${ibase}${arrVARIABLES[$((i-1))]}
+        mkdir -p cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${ibase}${j}
         for c in $LEPTONS
         do
              export BASE="$ibase"
@@ -125,12 +144,12 @@ do
 	     then
 		 continue
 	     fi
-            mkdir -p cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${arrVARIABLES[$((i-1))]}
-            cp cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}/hh_*.* cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${ibase}${arrVARIABLES[$((i-1))]}/.
-            cp cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}/hh_*.* cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${arrVARIABLES[$((i-1))]}/.
-            cp cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${arrVARIABLES[$((i-1))]}/hh_*.* cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${arrVARIABLES[$((i-1))]}/.
+            mkdir -p cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${j}
+            cp cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${j}/hh_*.* cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${ibase}${j}/.
+            cp cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${j}/hh_*.* cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${j}/.
+            cp cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${BASE}${j}/hh_*.* cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${j}/.
         done
-        cd cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${ibase}${arrVARIABLES[$((i-1))]}
+        cd cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${ibase}${j}
         pwd
 	# CATEGORIES: 
 	# C1 = s1b1jresolvedMcut
@@ -172,7 +191,7 @@ do
     done
 
 	#MAKE BIG COMBINATION [1 x mass point]
-    cd cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${arrVARIABLES[$((i-1))]}
+    cd cards_Combined_$OUTSTRING/${NAMESAMPLE}${i}${j}
     rm comb.*
     combineCards.py -S hh_*_C1_L${NAMESAMPLE}${i}_13Te*.txt hh_*_C2_L${NAMESAMPLE}${i}_13Te*.txt hh_*_C3_L${NAMESAMPLE}${i}_13Te*.txt hh_*_C4_L${NAMESAMPLE}${i}_13Te*.txt hh_*_C5_L${NAMESAMPLE}${i}_13Te*.txt>> comb.txt 
     text2workspace.py -m ${i} comb.txt -o comb.root ;
@@ -187,7 +206,7 @@ do
     for c in $LEPTONS 
     do
 	
-	cd cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${arrVARIABLES[$((i-1))]}
+	cd cards_${c}_$OUTSTRING/${NAMESAMPLE}${i}${j}
 	rm comb.*
 	if [[ ${c} == "TauTau" ]]
 	then
@@ -205,7 +224,7 @@ do
 		cd ${CF}
     done
 
-
+  done
 done
 
 

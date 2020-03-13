@@ -338,14 +338,14 @@ CV = [1.0]
 
 input.signals = []
 for c2V in range(len(C2V)) :
-    for cV in range(len(CV)) :
-	input.signals.append("VBFHH_bbtt_CV_%s_C2V_%s_C3_1.0"% (str(CV[cV]), str(C2V[c2V])))
+  for cV in range(len(CV)) :
+	  input.signals.append("VBFHH_bbtt_CV_%s_C2V_%s_C3_1.0"% (str(CV[cV]), str(C2V[c2V])))
 #print input.signals
 
 for theLambda in input.signals:
 	if not lambdaName in theLambda : 
-		continue
-        for sel in allSel : 
+    continue
+  for sel in allSel : 
 
 
 		#if not "lambda" in theLambda and not "Radion" in theLambda : continue
@@ -353,6 +353,6 @@ for theLambda in input.signals:
 #			if not "Radion" in theLambda : continue
 #		else :
 #			if not "ggHH_bbtt" in theLambda : continue
-	    for ireg in range(-1,3) :
-                        print "theLambda = ",theLambda
-			writeCard(input,theLambda,sel,ireg)
+      for ireg in range(-1,3) :
+        print "theLambda = ",theLambda
+        writeCard(input,theLambda,sel,ireg)
