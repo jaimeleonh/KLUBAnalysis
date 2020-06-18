@@ -5726,10 +5726,6 @@ int main (int argc, char** argv)
         // Run the inference
         std::map <std::string, float> model_outputs = multiclass.run(input_features, *rv_evt);
 
-        // Fill the maximum node distributions
-        double max_dnn_output = -999.;
-        std::string max_dnn_output_name = "";
-
         // Store the results
         for (const auto& it : model_outputs) 
           {
