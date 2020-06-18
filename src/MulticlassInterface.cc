@@ -52,15 +52,7 @@ class MulticlassInterface {
             for (size_t i = 0; i < model->getFeatureSpecs().size(); i++)
               {
                 std::string feature_name = model->getFeatureName(i);
-                if (input_features[feature_name] != -999.) // Checking no -999s
-                  {
-                    model->input.setValue(feature_name, input_features[feature_name]);
-                  }
-                else // Change -999 to the feature's default value
-                  {
-                    auto feature = model->getFeatureSpecs()[i];
-                    model->input.setValue(feature_name, feature.getDefaultValue());
-                  }
+                model->input.setValue(feature_name, input_features[feature_name]);
               }
 
             model->run(ev_number);
