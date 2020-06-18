@@ -5770,15 +5770,8 @@ int main (int argc, char** argv)
         // Store the results
         for (const auto& it : model_outputs) 
           {
-            cout << it.first << " " << it.second << endl;
             dnn_outputs[it.first].push_back(it.second);
-            if (it.second >= max_dnn_output)
-              {
-                max_dnn_output = it.second; 
-                max_dnn_output_name = it.first; 
-              }
           }
-        // dnn_outputs[max_dnn_output_name + "_mpp"].push_back(max_dnn_output); 
         c_event++;
     }
     // Open file and get TTree that must be updated

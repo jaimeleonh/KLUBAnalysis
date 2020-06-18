@@ -5641,8 +5641,11 @@ int main (int argc, char** argv)
     // Index and number of entries for loop on entries
     long int c_event(0), n_tot_events(reader.GetEntries(true));
 
-    std::vector <std::pair<std::string, std::string>> models = {std::make_pair("v0", "kl1_c2v1_c31")};
-    MulticlassInterface multiclass(2018, models);
+    std::vector <std::pair<std::string, std::string>> models = {
+        {"v0", "kl1_c2v1_c31"},
+        {"v0", "kl1_c2v1_c31_vbfbsm"}
+    };
+    MulticlassInterface multiclass(2017, models);
         
     // Loop on entries with TTreeReader
     while (reader.Next())
@@ -5730,15 +5733,8 @@ int main (int argc, char** argv)
         // Store the results
         for (const auto& it : model_outputs) 
           {
-            cout << it.first << " " << it.second << endl;
             dnn_outputs[it.first].push_back(it.second);
-            if (it.second >= max_dnn_output)
-              {
-                max_dnn_output = it.second; 
-                max_dnn_output_name = it.first; 
-              }
           }
-        // dnn_outputs[max_dnn_output_name + "_mpp"].push_back(max_dnn_output); 
         c_event++;
     }
     // Open file and get TTree that must be updated
