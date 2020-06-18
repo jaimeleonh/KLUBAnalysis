@@ -5678,8 +5678,11 @@ int main (int argc, char** argv)
     // Index and number of entries for loop on entries
     long int c_event(0), n_tot_events(reader.GetEntries(true));
 
-    std::vector <std::pair<std::string, std::string>> models = {std::make_pair("v0", "kl1_c2v1_c31")};
-    MulticlassInterface multiclass(2018, models);
+    std::vector <std::pair<std::string, std::string>> modelSpecs = {
+        {"v0", "kl1_c2v1_c31"},
+        {"v0", "kl1_c2v1_c31_vbfbsm"}
+    };
+    MulticlassInterface multiclass(2018, modelSpecs);
         
     // Loop on entries with TTreeReader
     while (reader.Next())
